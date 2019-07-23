@@ -9,18 +9,26 @@ const App = () => {
         neutral: 0,
         bad: 0
     });
+    const [sum, setSum] = useState(0);
+    const [total, setTotal] = useState(0);
+
     
 
     const handleClick =(value) => {
         switch(value) {
             case 'good':
                 setFeedback({...feedback, good: feedback.good + 1});
+                setSum(sum + 1);
+                setTotal(total + 1);
                 break;
             case 'neutral':
                 setFeedback({...feedback, neutral: feedback.neutral + 1})
+                setTotal(total + 1);
                 break;
             case 'bad':
             setFeedback({...feedback, bad: feedback.bad + 1})
+            setSum(sum - 1);
+            setTotal(total + 1);
             break;
         }
     }
@@ -35,6 +43,9 @@ const App = () => {
             <p>good {feedback.good}</p>
             <p>neutral {feedback.neutral}</p>
             <p>bad {feedback.bad}</p>
+            <p>all {total}</p>
+            <p>average {sum/total}</p>
+            <p>positive {(feedback.good / total) * 100}%</p>
         </div>
     );
 }
