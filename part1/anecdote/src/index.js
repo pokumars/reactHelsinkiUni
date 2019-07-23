@@ -2,6 +2,16 @@ import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
+const Anecdote = (props) => {
+    
+    return (
+        <div>
+            {props.anecdote}
+        </div>
+    );
+}
+
+const Score = (props) => <p>{props.score}</p>
 
 
 const App = (props) => {
@@ -10,7 +20,7 @@ const App = (props) => {
     const [index, setIndex] = useState(0);
 
     const handleNextClick = () => {
-        console.log(scores);
+        console.log('scores',scores);
         const getRandom = (min, max) => {//generate random number between a specified range
             min = Math.ceil(min);
             max = Math.floor(max);
@@ -20,26 +30,39 @@ const App = (props) => {
         let rand = getRandom(0, props.anecdotes.length - 1); //use random number and select next thing in array
         setSelected(rand);
         setIndex(rand);
-        console.log('current index ...', index)
     }
 
     const handleVoteClick = () => {
         const copy = [...scores];// copy vote array, add new vote and set it as the new state
         copy[index] += 1;
         setScores(copy);
+        mostLiked();
+    }
+    const mostLiked= () =>{
+        const arr1= [...scores];//make a copy arry for the sorting purpose
+        //console.log('score',scores);
+        let re = arr1.sort((a,b) => a-b);//sort and use the last value there as the biggest number
+        let biggest = re[re.length -1]
+        let bigIndex = scores.indexOf(biggest);//index of that anecdote
+
+        return bigIndex;
     }
 
 
     return (
         <div>
-            <p>{props.anecdotes[selected]}</p>
+            <p>{index}</p>
+            <Anecdote anecdote= {props.anecdotes[selected]} />
             <button onClick={handleNextClick}>next anecdote</button>
-            <button onClick={handleVoteClick}>vote</button> 
-            <p>{scores[index]}</p>
-        </div>
-    )
+            <button onClick={handleVoteClick}>vote</button>
+            <Score score={scores[index]}/>
 
-   
+            <h3>Most liked Anecdote</h3>
+            <Anecdote anecdote= {props.anecdotes[mostLiked()]} />
+            
+
+        </div>
+    )   
 }
 
 const anecdotes = [
