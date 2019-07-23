@@ -2,14 +2,9 @@ import React , { useState } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-const Statistics = (props) => {
-    
-    return ( 
-    <div>
-        <p>{props.name} {props.value}</p>
-    </div>
-    );
-}
+const Statistics = (props) => <p>{props.name} {props.value}</p>
+
+const Button = (props) => <button onClick={() => props.handleClick(props.name)} >{props.name}</button>
 
 
 const App = () => {
@@ -21,9 +16,9 @@ const App = () => {
     const [sum, setSum] = useState(0);
     const [total, setTotal] = useState(0);
 
-    
 
     const handleClick =(value) => {
+        console.log(feedback);
         switch(value) {
             case 'good':
                 setFeedback({...feedback, good: feedback.good + 1});
@@ -41,15 +36,31 @@ const App = () => {
             break;
         }
     }
+    if(total === 0) {
+        return (
+            <div>
+                <h2>Give feedback</h2>
+                <Button name={'good'} handleClick={handleClick}/>
+                <Button name={'neutral'} handleClick={handleClick}/>
+                <Button name={'bad'} handleClick={handleClick}/>
+                
+                
+                <h3>Statistics</h3>
+                <p>No feedback given</p>
+            </div>
+        )
+    }
 
     return (
         <div>
             <h2>Give feedback</h2>
-            <button onClick={() => handleClick('good')} >good</button>
-            <button onClick={() => handleClick('neutral')}>neutral</button>
-            <button onClick={() => handleClick('bad')} >bad</button>
+            <Button name={'good'} handleClick={handleClick}/>
+            <Button name={'neutral'} handleClick={handleClick}/>
+            <Button name={'bad'} handleClick={handleClick}/>
+            
             
             <h3>Statistics</h3>
+            
             <Statistics name="good" value= {feedback.good} />
             <Statistics name="neutral" value= {feedback.neutral} />
             <Statistics name="bad" value= {feedback.bad} />
