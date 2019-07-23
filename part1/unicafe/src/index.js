@@ -69,7 +69,6 @@ const App = () => {
                     <Statistics name="average" value= {sum/total} />
                     <Statistics name="positive" value= {(feedback.good / total) * 100 + '%'} />
                 </tbody>
-            
             </table>
             
             
