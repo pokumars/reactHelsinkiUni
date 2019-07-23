@@ -2,7 +2,7 @@ import React , { useState } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-const Statistics = (props) => <p>{props.name} {props.value}</p>
+const Statistics = (props) => <tr><td>{props.name}</td><td>{props.value}</td></tr>
 
 const Button = (props) => <button onClick={() => props.handleClick(props.name)} >{props.name}</button>
 
@@ -60,13 +60,19 @@ const App = () => {
             
             
             <h3>Statistics</h3>
+            <table>
+                <tbody>
+                    <Statistics name="good" value= {feedback.good} />
+                    <Statistics name="neutral" value= {feedback.neutral} />
+                    <Statistics name="bad" value= {feedback.bad} />
+                    <Statistics name="all" value= {total} />
+                    <Statistics name="average" value= {sum/total} />
+                    <Statistics name="positive" value= {(feedback.good / total) * 100 + '%'} />
+                </tbody>
             
-            <Statistics name="good" value= {feedback.good} />
-            <Statistics name="neutral" value= {feedback.neutral} />
-            <Statistics name="bad" value= {feedback.bad} />
-            <Statistics name="all" value= {total} />
-            <Statistics name="average" value= {sum/total} />
-            <Statistics name="positive" value= {(feedback.good / total) * 100 + '%'} />
+            </table>
+            
+            
         </div>
     );
 }
