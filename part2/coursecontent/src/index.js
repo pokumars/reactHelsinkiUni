@@ -13,9 +13,9 @@ const Course = ({ course }) => {
 }
 
 const Header = (props) => {
-    console.log(props);
+    //console.log('props to header', props);
     return(
-        <h1>{props.course}</h1>
+        <h2>{props.course}</h2>
     )    
 }
 
@@ -29,12 +29,15 @@ const Part = (props) => {
 }
 
 const Content = (props) => {
-    console.log(props.parts[0]);
+    //console.log(props.parts);
+
+    const mapParts = () => {
+        return props.parts.map((part)=> <Part key ={part.id} part={part.name} exercises={part.exercises} />)
+    }
+    
 return (    
     <div>
-        <Part part={props.parts[0].name} exercises={props.parts[0].exercises} />
-        <Part part={props.parts[1].name} exercises={props.parts[1].exercises} />
-        <Part part={props.parts[2].name} exercises={props.parts[2].exercises} />
+        {mapParts()}
         
     </div>
 );
@@ -47,7 +50,7 @@ const Total = (props) => {
      return props.total.reduce((acc, cur) => acc + cur.exercises, 0)
  }
 
-    console.log(props);
+    //console.log(props);
     return (
         <div>
             <p><b>Number of exercises {total()}</b></p>
@@ -56,30 +59,64 @@ const Total = (props) => {
 }
 
 const App = () => {
-    const course = {
-      name: 'Half Stack application development',
-      parts: [
+    
+    const courses = [
         {
-          name: 'Fundamentals of React',
-          exercises: 10,
-          id: 1
-        },
+          name: 'Half Stack application development',
+          id: 1,
+          parts: [
+            {
+              name: 'Fundamentals of React',
+              exercises: 10,
+              id: 1
+            },
+            {
+              name: 'Using props to pass data',
+              exercises: 7,
+              id: 2
+            },
+            {
+              name: 'State of a component',
+              exercises: 14,
+              id: 3
+            },
+            {
+              name: 'Redux',
+              exercises: 11,
+              id: 4
+            }
+          ]
+        }, 
         {
-          name: 'Using props to pass data',
-          exercises: 7,
-          id: 2
-        },
-        {
-          name: 'State of a component',
-          exercises: 14,
-          id: 3
+          name: 'Node.js',
+          id: 2,
+          parts: [
+            {
+              name: 'Routing',
+              exercises: 3,
+              id: 1
+            },
+            {
+              name: 'Middlewares',
+              exercises: 7,
+              id: 2
+            }
+          ]
         }
-      ]
+    ]
+
+    const getCourses = () => {
+        console.log('all courses', courses )
+
+        return courses.map((course)=> {
+            console.log('mapped course', course);
+            return (<Course key={course.id} course={course} />);
+        })
     }
   
     return (
       <div>
-        <Course course={course} />
+        {getCourses()}
       </div>
     )
   }
