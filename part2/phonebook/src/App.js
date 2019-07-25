@@ -16,9 +16,22 @@ const App = () => {
   const addName= (event) => {
     event.preventDefault();
 
-    const name = { name: newName};
-    console.log('names' , persons.concat(name));
-    setPersons(persons.concat(name));  
+    const nameObj = { name: newName };
+
+    const nameExistsAlready = () => {
+      //if name isnt found, it returns undefined, 
+      //if it is then it returns that obj
+      return persons.find( (object) => object.name === nameObj.name);
+    }
+    console.log('undefined means name doesnt already exist', nameExistsAlready());
+
+    if(nameExistsAlready() === undefined) {//name doesnt exist, set name
+      console.log('names' , persons.concat(nameObj));
+      setPersons(persons.concat(nameObj)); 
+    } 
+    else{ //name already exists, so give error alert
+      window.alert(`${nameObj.name} already exists in phone book`)
+    }
 
     setNewName('');
   }
