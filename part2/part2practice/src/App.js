@@ -1,11 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Note from './components/note';
+import axios from 'axios';
 
 
 const App = (props) => {
-    const [notes, setNotes] = useState(props.notes);
+    const [notes, setNotes] = useState([]);
     const [newNote, setNewNote] = useState('a new note...');
     const [showAll, setShowAll] = useState(true);
+
+    const hook = () => {
+    console.log('effect')
+    axios
+      .get('http://localhost:3001/notes')
+      .then(response => {
+        console.log('promise fulfilled')
+        setNotes(response.data)
+      })
+    }
+
+    useEffect(hook, []);
+
+    console.log('render', notes.length, 'notes')
+
 
     const addNote = (event)=> {
       event.preventDefault();
@@ -16,7 +32,7 @@ const App = (props) => {
         date: new Date().toISOString,
         important: Math.random > 0.5
       }
-      
+
       setNotes(notes.concat(noteObject));
       setNewNote('');
     }
@@ -28,13 +44,11 @@ const App = (props) => {
     const notesToShow = showAll ?
      notes:
      notes.filter(note => note.important === true);
-  
+
     const rows = () => {
       return notesToShow.map(note => <Note key={note.id} note={note} />);
     }
-    
-  
-  
+
     return (
       <div>
         <h1>Notes</h1>
@@ -47,14 +61,14 @@ const App = (props) => {
           {rows()}
         </ul>
         <form onSubmit={addNote}>
-          <input 
+          <input
             value={newNote}
             onChange={handleNoteChange} />
           <button type="submit">Save</button>
         </form>
       </div>
     )
-    
+
 }
 
 export default App;
