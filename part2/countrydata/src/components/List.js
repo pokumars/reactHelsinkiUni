@@ -3,8 +3,7 @@ import Country from './Country';
 
 const List = (props) => {
     const {results, search} = props;
-    //console.log('results', results);
-
+    
     const mapResults = () =>{
         function searchByName(item) {
             return item.name.toLowerCase().includes(search);
@@ -12,21 +11,28 @@ const List = (props) => {
 
         if (search !== ""){//results when search bar is populated
            let searchedCountry = results.filter(searchByName);
-           if(searchedCountry.length === 1){
-               return <Country country={results[0]}/>
+           /*if(searchedCountry.length === 1){//1 result
+                console.log('lone country...', results[0]);
+                //return <p>one country</p>
+               return <Country country={results[0]} show={true}/>
            }
-           else if (searchedCountry.length > 10) {
+           else*/ if (searchedCountry.length > 10) {
             return limitResultsToTen(searchedCountry);
            } else {
-            return searchedCountry.map((country) => <li key={country.name}>{country.name}</li>); 
+            return searchedCountry.map((country) => <div key={country.name}> 
+                <Country country={country} show={false}/>
+            </div>); 
            }
         }        
     }
 
+
     const limitResultsToTen =(arr) => {//if arr is more than 10 results
         let theTen = arr.filter((item,index) => index < 10 );
         console.log('arr of 10', theTen);
-        return theTen.map((country) => <li key={country.name}>{country.name}</li>);        
+        return theTen.map((country) => <div key={country.name}> 
+            <Country country={country} show={false}/>
+        </div>);        
     }    
 
     return(
@@ -36,8 +42,7 @@ const List = (props) => {
                 {mapResults()}
             </ul>
 
-        </div>
-        
+        </div>        
     );
 }
 

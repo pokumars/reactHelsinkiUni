@@ -12,12 +12,21 @@ function App() {
     axios
       .get(`https://restcountries.eu/rest/v2/name/${search}`)
       .then((response)=> {
-        console.log('full response Array',response.data);
+        //console.log('full response Array',response.data);
+        setResults(response.data);
+      });
+
+      axios
+      .get(`https://restcountries.eu/rest/v2/name/${search}`)
+      .then((response)=> {
+        //console.log('full response Array',response.data);
         setResults(response.data);
       });
 
   }
   useEffect(searchHook,[search]);
+
+
 
   
  
