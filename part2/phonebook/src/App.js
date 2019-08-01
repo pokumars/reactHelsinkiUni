@@ -8,8 +8,8 @@ import axios from 'axios';
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [ filter, setFilter] = useState(''); 
-  const [ newName, setNewName ] = useState('klm');
-  const [ newNumber, setNewNumber ] = useState('011');
+  const [ newName, setNewName ] = useState('');
+  const [ newNumber, setNewNumber ] = useState('');
   
   const hook = () => {
     axios
@@ -17,14 +17,10 @@ const App = () => {
     .then((response) => {
       console.log('axios response', response.data);
       setPersons(response.data);
-    })
+    });
   }
   //use effect hook here to fetch notes
   useEffect(hook, []);
-
-
-
-
   
 
   const handleNameChange =(event) => {
@@ -51,22 +47,32 @@ const App = () => {
 
     const nameExistsAlready = () => {
       //if name isnt found, it returns undefined, 
-      //if it is then it returns that obj
+      //if it is found then it returns that obj
       return persons.find( (object) => object.name === nameObj.name);
     }
     console.log('undefined means name doesnt already exist', nameExistsAlready());
 
-    if(nameExistsAlready() === undefined && newNumber !== "") {//name doesnt exist, set name
-      
-      console.log('names' , persons.concat(nameObj));
-      setPersons(persons.concat(nameObj)); 
-    } 
-    else{ //name already exists, so give error alert
-      window.alert(`Name ${nameObj.name} already exists in phonebook or number spot is empty`)
-    }
-
     setNewName('');
     setNewNumber('');
+    
+    if(newName === "") {//no name
+      return window.alert(`Name spot is empty`)
+    } else if (newNumber === ""){//no number
+      return window.alert(`Number spot is empty`)
+    } else if(nameExistsAlready() !== undefined) {//name exists
+      //undefine means name doesnt exist already
+      return window.alert(`Name ${nameObj.name} already exists in phonebook or number spot is empty`)
+    }
+
+    console.log('names' , persons.concat(nameObj));
+    axios.post('http://localhost:3001/persons', nameObj)
+      .then((response) => {
+        console.log(response.data);
+        setPersons(persons.concat(response.data)); 
+      });
+        
+    
+    //setPersons(persons.concat(nameObj)); 
   }
 
  
