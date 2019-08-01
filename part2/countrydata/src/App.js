@@ -5,7 +5,7 @@ import List from './components/List';
 import axios from 'axios';
 
 function App() {
-  const [ search, setSearch] = useState('greece');
+  const [ search, setSearch] = useState('ja');
   const [ results, setResults ] = useState([]);
 
   const searchHook = ()=> {

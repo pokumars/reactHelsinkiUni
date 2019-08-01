@@ -3,6 +3,7 @@ import Filter from './components/Filter';
 import PersonForm from './components/PersonForm';
 import Persons from './components/Persons';
 import axios from 'axios';
+import phoneService from './services/phoneService'
 
 
 const App = () => {
@@ -12,11 +13,10 @@ const App = () => {
   const [ newNumber, setNewNumber ] = useState('');
   
   const hook = () => {
-    axios
-    .get('http://localhost:3001/persons')
-    .then((response) => {
-      console.log('axios response', response.data);
-      setPersons(response.data);
+   phoneService
+    .getAll()
+    .then((allContacts) => {
+      setPersons(allContacts);
     });
   }
   //use effect hook here to fetch notes
@@ -65,14 +65,12 @@ const App = () => {
     }
 
     console.log('names' , persons.concat(nameObj));
-    axios.post('http://localhost:3001/persons', nameObj)
-      .then((response) => {
-        console.log(response.data);
-        setPersons(persons.concat(response.data)); 
+    phoneService
+      .addContact(nameObj)
+      .then((newPerson) => {
+        console.log(newPerson);
+        setPersons(persons.concat(newPerson)); 
       });
-        
-    
-    //setPersons(persons.concat(nameObj)); 
   }
 
  
