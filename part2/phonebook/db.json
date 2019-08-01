@@ -1,44 +1,24 @@
 {
   "persons": [
     {
-      "name": "Arto Hellas",
-      "number": "040-123456",
-      "id": 1
-    },
-    {
-      "name": "Ada Lovelace",
-      "number": "39-44-5323523",
-      "id": 2
-    },
-    {
-      "name": "Dan Abramov",
-      "number": "12-43-234345",
-      "id": 3
-    },
-    {
-      "name": "Mary Poppendieck",
-      "number": "39-23-6423122",
+      "name": "Josif Stalin",
+      "number": "125789",
       "id": 4
-    },
-    {
-      "name": "jonjo shelvey",
-      "number": "66258",
-      "id": 5
-    },
-    {
-      "name": "Wanker",
-      "number": "12654799",
-      "id": 6
-    },
-    {
-      "name": "kobe bryant",
-      "number": "2134543",
-      "id": 7
     },
     {
       "name": "jon ashley",
       "number": "125789",
-      "id": 8
+      "id": 5
+    },
+    {
+      "name": "asfdsf",
+      "number": "54445465",
+      "id": 6
+    },
+    {
+      "name": "kobby",
+      "number": "555444777",
+      "id": 7
     }
   ]
 }

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import Filter from './components/Filter';
 import PersonForm from './components/PersonForm';
 import Persons from './components/Persons';
-import axios from 'axios';
 import phoneService from './services/phoneService'
 
 
@@ -12,7 +11,7 @@ const App = () => {
   const [ newName, setNewName ] = useState('');
   const [ newNumber, setNewNumber ] = useState('');
   
-  const hook = () => {
+  const getAllhook = () => {
    phoneService
     .getAll()
     .then((allContacts) => {
@@ -20,7 +19,7 @@ const App = () => {
     });
   }
   //use effect hook here to fetch notes
-  useEffect(hook, []);
+  useEffect(getAllhook, []);
   
 
   const handleNameChange =(event) => {
@@ -61,7 +60,23 @@ const App = () => {
       return window.alert(`Number spot is empty`)
     } else if(nameExistsAlready() !== undefined) {//name exists
       //undefine means name doesnt exist already
-      return window.alert(`Name ${nameObj.name} already exists in phonebook or number spot is empty`)
+      //return window.alert(`Name ${nameObj.name} already exists in phonebook or number spot is empty`)
+      const agree = window.confirm(`${newName} already exists. Do you want to update the number`);
+
+      if (agree) {
+        const objToUpdateID = persons.find((p)=> newName === p.name).id;
+        console.log('objToUpudate', objToUpdateID);
+
+        phoneService
+          .updateContact(objToUpdateID, nameObj)
+          .then((returnedPerson) => {
+            return setPersons(persons.map((p) => p.id !== objToUpdateID? p : returnedPerson));
+          });        
+      }
+
+      
+
+      return
     }
 
     console.log('names' , persons.concat(nameObj));
@@ -73,6 +88,16 @@ const App = () => {
       });
   }
 
+  const deletePerson = (person) => {
+    const agree = window.confirm(`Are you sure you want to delete ${person.name}`);
+
+    if(agree){
+      console.log('delete person', person.id);
+    
+      phoneService.deleteContact(person.id)
+      setPersons(persons.filter((p) => p.id !== person.id));
+    }
+  }
  
 
 
@@ -88,7 +113,7 @@ const App = () => {
       />      
 
       <h2>Numbers</h2>
-      <Persons persons={persons} filter={filter} />
+      <Persons persons={persons} filter={filter} deletePerson={deletePerson} />
     </div>
   )
 }

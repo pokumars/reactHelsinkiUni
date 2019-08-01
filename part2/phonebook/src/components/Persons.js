@@ -1,7 +1,7 @@
 import React from 'react'
 
 const Persons = (props) => {
-    const { persons, filter } = props
+    const { persons, filter, deletePerson } = props
 
 
     const displayNumbers =() => {
@@ -11,9 +11,9 @@ const Persons = (props) => {
     
         if(filter !== ""){
           let filteredPersons = persons.filter(filterByName);
-          return filteredPersons.map((person)=> <p key={person.name}>{person.name} {person.number}</p>)
-        }
-        return persons.map((person)=> <p key={person.name}>{person.name} {person.number}</p>)
+          return filteredPersons.map((person)=>  <p key={person.name}>{person.name} {person.number} <button onClick={()=> deletePerson(person)}>delete</button></p>)
+        } 
+        return persons.map((person)=> <p key={person.name}>{person.name} {person.number} <button onClick={()=> deletePerson(person)}>delete</button></p>)
     }
 
     return (

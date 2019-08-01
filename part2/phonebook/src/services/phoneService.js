@@ -16,8 +16,23 @@ const addContact = (personObj) => {
     return request.then((response) => response.data);
 }
 
-const deleteContact = () => {
+const deleteContact = (id) => {
+    const request = axios.delete(`${baseUrl}/${id}`);
 
+
+    return request.then((response)=>{
+        console.log('delete request response ',response.data);
+    });
 }
 
-export default { addContact, getAll, deleteContact }
+const updateContact = (id, newObject) => {
+    const request = axios.put(`${baseUrl}/${id}`, newObject);
+
+    return request.then((response) => {
+        console.log('update contact response ',response.data);
+        return response.data
+    });
+    
+}
+
+export default { addContact, getAll, deleteContact,updateContact }
