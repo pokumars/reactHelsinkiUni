@@ -67,9 +67,12 @@ const App = () => {
         const objToUpdateID = persons.find((p)=> newName === p.name).id;
         console.log('objToUpudate', objToUpdateID);
 
+        //UPDATE
         phoneService
           .updateContact(objToUpdateID, nameObj)
           .then((returnedPerson) => {
+            //setPersons to be all the persons except the one with the id we just changed.
+          //That should be replaced by the updated one we got from the put request's response.
             return setPersons(persons.map((p) => p.id !== objToUpdateID? p : returnedPerson));
           });        
       }
@@ -88,6 +91,7 @@ const App = () => {
       });
   }
 
+  //DELETE
   const deletePerson = (person) => {
     const agree = window.confirm(`Are you sure you want to delete ${person.name}`);
 
@@ -95,6 +99,8 @@ const App = () => {
       console.log('delete person', person.id);
     
       phoneService.deleteContact(person.id)
+      
+      //set persons to be all except the one we deleted
       setPersons(persons.filter((p) => p.id !== person.id));
     }
   }

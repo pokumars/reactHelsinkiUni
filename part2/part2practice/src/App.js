@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Note from './components/note';
+import Notification from './components/Notification';
 import noteService from './services/noteService';
 
 
@@ -7,6 +8,7 @@ const App = (props) => {
     const [notes, setNotes] = useState([]);
     const [newNote, setNewNote] = useState('');
     const [showAll, setShowAll] = useState(true);
+    const [errorMessage, setErrorMessage] = useState(null);
 
     const hook = () => {
     console.log('effect')
@@ -55,9 +57,13 @@ const App = (props) => {
           setNotes(notes.map(note => note.id !== id ? note : returnedNote));
         })
         .catch(error => {
-          alert(
-            `the note '${note.content}' was already deleted from server`
-          )
+          //show error notification for only 5 seconds
+          setErrorMessage(`the note '${note.content}' was already deleted from server`);
+          setTimeout(()=> {
+            setErrorMessage(null);
+          }, 5000);
+          
+          //reload notes and dont add the deleted one this time.
           setNotes(notes.filter(n => n.id !== id))
         });
 
@@ -89,6 +95,7 @@ const App = (props) => {
     return (
       <div>
         <h1>Notes</h1>
+        <Notification message={errorMessage}/>
         <div>
           <button onClick={()=> setShowAll(!showAll)}>
             show {showAll? "important": "all"}
