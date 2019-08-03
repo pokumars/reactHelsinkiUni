@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import Filter from './components/Filter';
 import PersonForm from './components/PersonForm';
 import Persons from './components/Persons';
-import phoneService from './services/phoneService'
-import Notification from './components/Notification'
+import phoneService from './services/phoneService';
+import Notification from './components/Notification';
+import Error from './components/Error';
 
 
 const App = () => {
@@ -12,6 +13,7 @@ const App = () => {
   const [ newName, setNewName ] = useState('');
   const [ newNumber, setNewNumber ] = useState('');
   const [ notificationMessage, setnotificationMessage] = useState(null);
+  const [ errorMessage, setErrorMessage ] = useState(null);
   
   const getAllhook = () => {
    phoneService
@@ -73,11 +75,13 @@ const App = () => {
         phoneService
           .updateContact(objToUpdateID, nameObj)
           .then((returnedPerson) => {
-            displayActionSuccess(`${returnedPerson.name}'s new number ${returnedPerson.number} added successfully`)
+            displayNotification(`${returnedPerson.name}'s new number ${returnedPerson.number} added successfully`, true);
             //setPersons to be all the persons except the one with the id we just changed.
           //That should be replaced by the updated one we got from the put request's response.
             return setPersons(persons.map((p) => p.id !== objToUpdateID? p : returnedPerson));
-          });        
+          }).catch((err) => {
+            displayNotification(`${newName} has already been removed from server`, false)
+          })        
       }
 
       
@@ -92,7 +96,7 @@ const App = () => {
       .then((newPerson) => {
         console.log(newPerson);
         setPersons(persons.concat(newPerson));
-        displayActionSuccess(`${newPerson.name} added successfully`);
+        displayNotification(`${newPerson.name} added successfully`, true);
       });
   }
 
@@ -104,7 +108,7 @@ const App = () => {
       console.log('delete person', person.id);
     
       phoneService.deleteContact(person.id)
-      displayActionSuccess(`${person.name} deleted`);//notification
+      displayNotification(`${person.name} deleted`, true);//notification
       
       
       //set persons to be all except the one we deleted
@@ -112,11 +116,20 @@ const App = () => {
     }
   }
 
-  const displayActionSuccess = (msg) => {
-    setnotificationMessage(msg);
+  const displayNotification = (msg, good) => {
+    //is message an error or just a notification
+
+    if (good) {
+      setnotificationMessage(msg);
       setTimeout(()=>{
         setnotificationMessage(null);
       },3000);
+    }else {
+      setErrorMessage(msg);
+      setTimeout(()=>{
+        setErrorMessage(null);
+      },3000);
+    }
   }
  
 
@@ -125,6 +138,8 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
       <Notification message={notificationMessage} />
+      <Error message={errorMessage} />
+
       <Filter handleChange={handleFilterChange} filter={filter}/>
 
       <h2>Add a new contact</h2>
