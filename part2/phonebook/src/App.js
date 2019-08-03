@@ -3,6 +3,7 @@ import Filter from './components/Filter';
 import PersonForm from './components/PersonForm';
 import Persons from './components/Persons';
 import phoneService from './services/phoneService'
+import Notification from './components/Notification'
 
 
 const App = () => {
@@ -10,6 +11,7 @@ const App = () => {
   const [ filter, setFilter] = useState(''); 
   const [ newName, setNewName ] = useState('');
   const [ newNumber, setNewNumber ] = useState('');
+  const [ notificationMessage, setnotificationMessage] = useState(null);
   
   const getAllhook = () => {
    phoneService
@@ -71,6 +73,7 @@ const App = () => {
         phoneService
           .updateContact(objToUpdateID, nameObj)
           .then((returnedPerson) => {
+            displayActionSuccess(`${returnedPerson.name}'s new number ${returnedPerson.number} added successfully`)
             //setPersons to be all the persons except the one with the id we just changed.
           //That should be replaced by the updated one we got from the put request's response.
             return setPersons(persons.map((p) => p.id !== objToUpdateID? p : returnedPerson));
@@ -82,12 +85,14 @@ const App = () => {
       return
     }
 
+    //CREATE CONTACT
     console.log('names' , persons.concat(nameObj));
     phoneService
       .addContact(nameObj)
       .then((newPerson) => {
         console.log(newPerson);
-        setPersons(persons.concat(newPerson)); 
+        setPersons(persons.concat(newPerson));
+        displayActionSuccess(`${newPerson.name} added successfully`);
       });
   }
 
@@ -99,10 +104,19 @@ const App = () => {
       console.log('delete person', person.id);
     
       phoneService.deleteContact(person.id)
+      displayActionSuccess(`${person.name} deleted`);//notification
+      
       
       //set persons to be all except the one we deleted
       setPersons(persons.filter((p) => p.id !== person.id));
     }
+  }
+
+  const displayActionSuccess = (msg) => {
+    setnotificationMessage(msg);
+      setTimeout(()=>{
+        setnotificationMessage(null);
+      },3000);
   }
  
 
@@ -110,6 +124,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={notificationMessage} />
       <Filter handleChange={handleFilterChange} filter={filter}/>
 
       <h2>Add a new contact</h2>
