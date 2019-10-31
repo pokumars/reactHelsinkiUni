@@ -5,13 +5,19 @@ const Country = (props) => {
     const { country, show } = props;
     const [ showCountry, setShowCountry ] = useState(show);
     const [ weather, setWeather ]= useState({});
-    const apiKey= '8bdf1ceaeec64ea99c982100191506';
+    const YOUR_ACCESS_KEY = '9770c1bfe218dfac495423a18e1b97ec';
 
     const getWeatherHook = ()=> {
         axios
-        .get(`http://api.apixu.com/v1/current.json?key=${apiKey}&q=${country.capital}`)
+        .get(`http://api.weatherstack.com/current`,{
+            params: {
+                access_key: YOUR_ACCESS_KEY,
+                query: country.capital
+              }
+        })
         .then((response) => {
-            console.log(response.data);
+            let res = response.data.current
+            console.log(country.capital, res.temperature,res.wind_speed,res.wind_dir, res.weather_icons[0])
             setWeather(response.data.current);
         });
     }
@@ -39,10 +45,10 @@ const Country = (props) => {
                 </ul>
                 <img src={country.flag} alt={`flag of ${country.name}`} height="200" width="200"/>
                 <h2>Weather in {country.capital}</h2>
-                <p><b>temperature</b> {weather.temp_c} celsius</p>
-                <img src= {weather.condition.icon} alt={weather.condition.text} height="80" width="80"/>
+                <p><b>temperature</b> {weather.temperature} celsius</p>
+                <img src= {weather.weather_icons[0]} alt="weather image here" height="80" width="80"/>
                 
-                <p><b>wind</b> {weather.wind_kph} kph <b>{weather.wind_dir}</b></p>
+                <p><b>wind</b> {weather.wind_speed}  kph <b>{weather.wind_dir}</b></p>
 
             </div>
         );
