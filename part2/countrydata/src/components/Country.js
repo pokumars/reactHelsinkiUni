@@ -8,6 +8,7 @@ const Country = (props) => {
     const YOUR_ACCESS_KEY = '9770c1bfe218dfac495423a18e1b97ec';
 
     const getWeatherHook = ()=> {
+        // switched from apixu to weathestack
         axios
         .get(`http://api.weatherstack.com/current`,{
             params: {
@@ -23,7 +24,6 @@ const Country = (props) => {
     }
     useEffect(getWeatherHook,[country]);
     
-    //console.log('country ...',country);
 
     const listLanguages = () => {
         return country.languages.map((lang)=> <li key={lang.name}>{lang.name}</li>)
