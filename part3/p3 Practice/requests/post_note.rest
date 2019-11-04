@@ -3,7 +3,7 @@ POST http://localhost:3001/notes
 content-type: application/json
 
 {
-    "content": "test smth 1",
-    "important": true,
+    "content": "test smth 2",
+    "important": false
 }
 
