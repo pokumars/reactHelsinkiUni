@@ -9,12 +9,12 @@ import Error from './components/Error';
 
 const App = () => {
   const [persons, setPersons] = useState([]);
-  const [ filter, setFilter] = useState(''); 
+  const [ filter, setFilter] = useState('');
   const [ newName, setNewName ] = useState('');
   const [ newNumber, setNewNumber ] = useState('');
   const [ notificationMessage, setnotificationMessage] = useState(null);
   const [ errorMessage, setErrorMessage ] = useState(null);
-  
+
   const getAllhook = () => {
    phoneService
     .getAll()
@@ -24,7 +24,7 @@ const App = () => {
   }
   //use effect hook here to fetch notes
   useEffect(getAllhook, []);
-  
+
 
   const handleNameChange =(event) => {
     //console.log(event.target.value);
@@ -41,7 +41,7 @@ const App = () => {
     setFilter(event.target.value);
 }
 
-  
+
 
   const addContact= (event) => {
     event.preventDefault();
@@ -49,15 +49,15 @@ const App = () => {
     const nameObj = { name: newName, number: newNumber };
 
     const nameExistsAlready = () => {
-      //if name isnt found, it returns undefined, 
+      //if name isnt found, it returns undefined,
       //if it is found then it returns that obj
       return persons.find( (object) => object.name === nameObj.name);
     }
-    console.log('undefined means name doesnt already exist', nameExistsAlready());
+    console.log('getting undefined means name doesnt exist yet --->', nameExistsAlready());
 
     setNewName('');
     setNewNumber('');
-    
+
     if(newName === "") {//no name
       return window.alert(`Name spot is empty`)
     } else if (newNumber === ""){//no number
@@ -80,12 +80,10 @@ const App = () => {
           //That should be replaced by the updated one we got from the put request's response.
             return setPersons(persons.map((p) => p.id !== objToUpdateID? p : returnedPerson));
           }).catch((err) => {
-            displayNotification(`${newName} has already been removed from server`, false)
-          })        
+            displayNotification(`${newName} has already been removed from server or the number belongs to someone else`, false)
+          })
       }
-
       
-
       return
     }
 
@@ -106,11 +104,11 @@ const App = () => {
 
     if(agree){
       console.log('delete person', person.id);
-    
+
       phoneService.deleteContact(person.id)
       displayNotification(`${person.name} deleted`, true);//notification
-      
-      
+
+
       //set persons to be all except the one we deleted
       setPersons(persons.filter((p) => p.id !== person.id));
     }
@@ -131,7 +129,7 @@ const App = () => {
       },3000);
     }
   }
- 
+
 
 
   return (
@@ -143,10 +141,10 @@ const App = () => {
       <Filter handleChange={handleFilterChange} filter={filter}/>
 
       <h2>Add a new contact</h2>
-      <PersonForm  submitter={addContact} 
+      <PersonForm  submitter={addContact}
        newName={newName} handleNameChange={handleNameChange}
        newNumber = {newNumber} handleNumberChange= {handleNumberChange}
-      />      
+      />
 
       <h2>Numbers</h2>
       <Persons persons={persons} filter={filter} deletePerson={deletePerson} />
