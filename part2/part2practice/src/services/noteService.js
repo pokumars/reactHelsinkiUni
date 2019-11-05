@@ -1,6 +1,8 @@
 import axios from 'axios'
 //const baseUrl = 'http://localhost:3001/notes'
 //const baseUrl = 'https://react-heluni-p3practice.herokuapp.com/notes'
+
+//this will use a proxy. why? --> https://fullstackopen.com/en/part3/deploying_app_to_internet#proxy
 const baseUrl = '/api/notes'
 
 /*const getAll= () => {

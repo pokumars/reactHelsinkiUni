@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import Note from './components/note';
 import Notification from './components/Notification';
 import noteService from './services/noteService';
+import Footer from './components/Footer';
 
 
-const App = (props) => {
+const App = () => {
     const [notes, setNotes] = useState([]);
     const [newNote, setNewNote] = useState('');
     const [showAll, setShowAll] = useState(true);
@@ -112,6 +113,8 @@ const App = (props) => {
             onChange={handleNoteChange} />
           <button type="submit">Save</button>
         </form>
+
+        <Footer />
       </div>
     )
 
