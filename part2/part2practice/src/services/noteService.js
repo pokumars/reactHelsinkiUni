@@ -1,7 +1,7 @@
 import axios from 'axios'
 //const baseUrl = 'http://localhost:3001/notes'
 //const baseUrl = 'https://react-heluni-p3practice.herokuapp.com/notes'
-const baseUrl = '/notes'
+const baseUrl = '/api/notes'
 
 /*const getAll= () => {
     const request = axios.get(baseUrl);
