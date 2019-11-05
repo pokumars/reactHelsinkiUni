@@ -1,8 +1,9 @@
 const express = require('express');
 const app = express();
+const cors = require('cors')
 const bodyParser = require ('body-parser');
 app.use(bodyParser.json());//must come before requestLogger since requestLogger needs the body
-
+app.use(cors())
 const morgan = require('morgan');
 
 //Define my own morgan token called body
