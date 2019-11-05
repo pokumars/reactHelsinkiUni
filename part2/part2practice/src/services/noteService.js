@@ -1,5 +1,7 @@
 import axios from 'axios'
-const baseUrl = 'http://localhost:3001/notes'
+//const baseUrl = 'http://localhost:3001/notes'
+//const baseUrl = 'https://react-heluni-p3practice.herokuapp.com/notes'
+const baseUrl = '/notes'
 
 /*const getAll= () => {
     const request = axios.get(baseUrl);
@@ -24,7 +26,7 @@ const create = (newObject) => {
 
 const update = (id, newObect) => {
     const request = axios.put(`${baseUrl}/${id}`, newObect);
-    
+
     return request.then((response) => response.data)
 }
 
