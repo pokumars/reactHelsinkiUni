@@ -55,8 +55,7 @@ const App = () => {
     }
     console.log('getting undefined means name doesnt exist yet --->', nameExistsAlready());
 
-    setNewName('');
-    setNewNumber('');
+   
 
     if(newName === "") {//no name
       return window.alert(`Name spot is empty`)
@@ -88,14 +87,18 @@ const App = () => {
     }
 
     //CREATE CONTACT
-    console.log('names' , persons.concat(nameObj));
+    console.log('name to add' , nameObj);
+
     phoneService
       .addContact(nameObj)
       .then((newPerson) => {
-        console.log(newPerson);
+        console.log('added person', newPerson);
         setPersons(persons.concat(newPerson));
         displayNotification(`${newPerson.name} added successfully`, true);
-      });
+        setNewName('');
+        setNewNumber('');
+    });
+    
   }
 
   //DELETE
