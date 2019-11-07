@@ -69,8 +69,8 @@ const App = () => {
       if (agree) {
         const objToUpdateID = persons.find((p)=> newName === p.name).id;
         console.log('objToUpudate', objToUpdateID);
-
-        //UPDATE
+      
+        //UPDATE Person
         phoneService
           .updateContact(objToUpdateID, nameObj)
           .then((returnedPerson) => {
@@ -81,6 +81,20 @@ const App = () => {
           }).catch((err) => {
             displayNotification(`${newName} has already been removed from server or the number belongs to someone else`, false)
           })
+
+          /*
+          //after Ex3.17* this is how I update. The backend handles whether it's new person or update with mongo's findOneAndUpdate
+          phoneService
+          .addContact(nameObj)
+          .then((returnedPerson) => {
+            displayNotification(`${returnedPerson.name}'s new number ${returnedPerson.number} added successfully`, true);
+            setNewName('');
+            setNewNumber('');
+            //setPersons to be all the persons except the one with the id we just changed.
+          //That should be replaced by the updated one we got from the put request's response.
+            return setPersons(persons.map((p) => p.id !== objToUpdateID? p : returnedPerson));
+          })
+          */
       }
       
       return
@@ -97,6 +111,10 @@ const App = () => {
         displayNotification(`${newPerson.name} added successfully`, true);
         setNewName('');
         setNewNumber('');
+    })
+    .catch(error => {
+      console.log(error.response.data);
+      displayNotification(error.response.data.error, false);
     });
     
   }
