@@ -1,7 +1,7 @@
 import React from 'react';
 
 const NoteForm = (props) => {
-  const {addNote, newNote, handleNoteChange} = props
+  const { addNote, newNote, handleNoteChange } = props;
 
   return (
     <form onSubmit={addNote}>
@@ -11,6 +11,6 @@ const NoteForm = (props) => {
       <button type="submit">save note</button>
     </form>
   );
-}
+};
 
 export default NoteForm;
