@@ -17,6 +17,7 @@ const App = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [user, setUser] = useState(null);
+    const noteFormRef = React.createRef();
 
     const hook = () => {
     console.log('effect')
@@ -68,6 +69,8 @@ const App = () => {
     //CREATE
     const addNote = (event)=> {
       event.preventDefault();
+
+      noteFormRef.current.toggleVisibility();
 
       const noteObject = {
         id: notes.length + 1,
@@ -148,7 +151,7 @@ const App = () => {
     }
 
     const noteForm = ()=> (
-      <Togglable buttonLabel="new note">
+      <Togglable buttonLabel="new note" ref={noteFormRef}>
         <NoteForm 
           addNote={addNote}
           newNote={newNote}
