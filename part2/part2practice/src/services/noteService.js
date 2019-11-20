@@ -1,14 +1,13 @@
 import axios from 'axios'
-//const baseUrl = 'http://localhost:3001/notes'
-//const baseUrl = 'https://react-heluni-p3practice.herokuapp.com/notes'
 
 //this will use a proxy. why? --> https://fullstackopen.com/en/part3/deploying_app_to_internet#proxy
 const baseUrl = '/api/notes'
 
-/*const getAll= () => {
-    const request = axios.get(baseUrl);
-    return request.then((response)=> response.data);
-}*/
+let token = null;
+
+const setToken = newToken => {
+    token = `bearer ${newToken}`;
+}
 
 const getAll = () => {
     const request = axios.get(baseUrl)
@@ -18,11 +17,16 @@ const getAll = () => {
       date: '2019-05-30T17:30:31.098Z',
       important: true,
     }
-    return request.then(response => response.data.concat(nonExisting))
+    return request.then(response => response.data.concat(nonExisting));
+    //return request.then(response => response.data);
 }
 
 const create = (newObject) => {
-    const request = axios.post(baseUrl, newObject);
+    const config = {
+        headers: { Authorization: token},
+    }
+
+    const request = axios.post(baseUrl, newObject, config);
     return request.then((response) => response.data)
 }
 
@@ -32,10 +36,4 @@ const update = (id, newObect) => {
     return request.then((response) => response.data)
 }
 
-export default { getAll, create, update }
-//can also be written like this
-/**{
-    getAll: getAll,
-    create: create,
-    update: update
-} */
+export default { getAll, create, update, setToken };
