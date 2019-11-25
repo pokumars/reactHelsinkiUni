@@ -20,6 +20,7 @@ const App = () => {
   const [user, setUser] = useState(null);
   const noteFormRef = React.createRef();
 
+
   const hook = () => {
     console.log('effect');
     noteService
