@@ -7,6 +7,7 @@ import loginService from './services/login';
 import LoginForm from './components/Loginform';
 import NoteForm from './components/NoteForm';
 import Togglable from './components/Togglable';
+import Logout from './components/Logout';
 
 
 const App = () => {
@@ -54,6 +55,7 @@ const App = () => {
       );
 
       noteService.setToken(user.token);
+
       setUser(user);
       setUsername('');
       setPassword('');
@@ -61,7 +63,7 @@ const App = () => {
     } catch (error) {
       setErrorMessage('Wrong Credentials');
       setTimeout(() => {
-
+        setErrorMessage(null);
       }, 5000);
     }
   };
@@ -132,6 +134,7 @@ const App = () => {
 
   //gets the array of notes ot be displayed and displays them
   const rows = () => {
+    console.log(user);
     return notesToShow.map(note =>
       <Note
         key={note.id}
@@ -162,15 +165,20 @@ const App = () => {
     </Togglable>
   );
 
+  const logout = () => {
+    setUser(null);
+  };
+
 
   return (
     <div>
+    {user !== null && <Logout user={user} clearUser={logout}/>}
       <h1>Notes</h1>
       <Notification message={errorMessage}/>
       {user === null
         ? loginForm()
         : <div>
-          <p> {user.name} is logged in</p>
+          <p>Welcome {user.name}</p>
           {noteForm()}
         </div>}
 

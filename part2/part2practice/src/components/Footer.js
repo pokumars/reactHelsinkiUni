@@ -11,6 +11,9 @@ const Footer = () => {
         <>
             <div style={footerStyle}>
               <br/>
+              <p>to test this out you can use  username: &quot;michelin&quot; and password: &quot;atyrecompany&quot;</p>
+
+              <br/>
               <em> Note App, Department of Computer Science, University of Helsinki 2019</em>
             </div>
         </>
