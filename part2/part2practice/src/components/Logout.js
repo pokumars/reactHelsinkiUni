@@ -2,7 +2,7 @@ import React from 'react';
 
 const Logout = (props) => {
   const { user, clearUser } = props;
-  console.log('user from logout component', user)
+  //console.log('user from logout component', user)
 
   const logMeOut = () => {
     window.localStorage.clear();

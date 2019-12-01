@@ -135,7 +135,7 @@ const App = () => {
 
   //gets the array of notes ot be displayed and displays them
   const rows = () => {
-    console.log(user);
+    //console.log(user);
     return notesToShow.map(note =>
       <Note
         key={note.id}
@@ -173,7 +173,7 @@ const App = () => {
 
   return (
     <div>
-    {user !== null && <Logout user={user} clearUser={logout}/>}
+      {user !== null && <Logout user={user} clearUser={logout}/>}
       <h1>Notes</h1>
       <Notification message={errorMessage}/>
       {user === null
