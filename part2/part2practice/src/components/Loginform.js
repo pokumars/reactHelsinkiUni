@@ -18,12 +18,14 @@ const LoginForm  = (props) => {
         <div>
           username
           <input type="text"
+            id='username'
             value={username}
             onChange={( { target } ) => handleUsernameChange(target.value)} />
         </div>
         <div>
           password
           <input type="password"
+            id='password'
             value={password}
             onChange={( { target } ) => handlePasswordChange(target.value)} />
         </div>

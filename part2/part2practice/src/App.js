@@ -79,7 +79,7 @@ const App = () => {
       id: notes.length + 1,
       content: newNote,
       date: new Date().toISOString,
-      important: Math.random > 0.5
+      important: false
     };
 
     noteService
@@ -146,7 +146,7 @@ const App = () => {
   const loginForm= () => {
 
     return (
-      <Togglable buttonLabel='login form'>
+      <Togglable buttonLabel='log in'>
         <LoginForm username={username} password={password}
           handleLogin={handleLogin}
           handleUsernameChange={(value) => setUsername(value)}
